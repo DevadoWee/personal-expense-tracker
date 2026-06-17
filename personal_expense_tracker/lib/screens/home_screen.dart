@@ -39,7 +39,7 @@ class HomeScreen extends GetView<HomeController> {
             for (final section in sections) ...[
               _TransactionSection(
                 dateTime: section.date,
-                total: controller.sectionTotalFor(section),
+                total: section.total,
                 items: section.transactions,
               ),
               const SizedBox(height: Spacing.large),

@@ -26,7 +26,7 @@ final class TransactionSqLiteService {
       final dateOnly = row[TransactionSqLiteRepository.dateOnlyColumn] as String;
 
       if (items.isEmpty || currentDateOnly != dateOnly) {
-        items.add(TransactionModelByDay(date: DateTime.parse(dateOnly), transactions: [transaction]));
+        items.add(TransactionModelByDay(date: DateTime.parse(dateOnly), total: transaction.amount, transactions: [transaction]));
         currentDateOnly = dateOnly;
         continue;
       }
@@ -34,7 +34,7 @@ final class TransactionSqLiteService {
       // Remove previous group to only add transaction and patch back
       // due to variable being 'final'
       final current = items.removeLast();
-      items.add(current.copyWith(transactions: [...current.transactions, transaction]));
+      items.add(current.copyWith(total: current.total + transaction.amount, transactions: [...current.transactions, transaction]));
     }
 
     return items;

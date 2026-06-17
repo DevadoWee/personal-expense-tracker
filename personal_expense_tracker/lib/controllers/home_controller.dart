@@ -26,10 +26,6 @@ class HomeController extends GetxController {
     refreshData();
   }
 
-  double sectionTotalFor(TransactionModelByDay item) {
-    return item.transactions.fold(0, (total, transaction) => total + transaction.amount);
-  }
-
   Future<void> loadTransactions() async {
     transactionByDays.assignAll(await TransactionSqLiteService.getTransactionByDays());
   }
