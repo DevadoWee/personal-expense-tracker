@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+import '../helpers/bottom_sheet_helper.dart';
 import '../helpers/snackbar_helper.dart';
 import '../models/transactionModelByDay/transaction_category_enum.dart';
 import '../models/transactionModelByDay/transaction_model.dart';
 import '../services/transaction_sqlite_service.dart';
+import '../widgets/transaction_category_bottom_sheet.dart';
 import 'home_controller.dart';
 
 class CreateTransactionController extends GetxController {
@@ -26,6 +28,31 @@ class CreateTransactionController extends GetxController {
 
   List<TransactionCategoryEnum> get categories => TransactionCategoryEnum.values;
 
+  String? validateTitle(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Title is required';
+    }
+
+    return null;
+  }
+
+  String? validateAmount(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Amount is required';
+    }
+
+    final amount = double.tryParse(value.trim());
+    if (amount == null) {
+      return 'Enter a valid amount';
+    }
+
+    if (amount <= 0) {
+      return 'Enter an amount greater than 0';
+    }
+
+    return null;
+  }
+
   @override
   void onClose() {
     titleController.dispose();
@@ -35,16 +62,24 @@ class CreateTransactionController extends GetxController {
     super.onClose();
   }
 
-  void focusAmount() {
-    amountFocusNode.requestFocus();
-  }
-
   void changeCategory(TransactionCategoryEnum? value) {
     if (value == null) {
       return;
     }
 
     selectedCategory.value = value;
+  }
+
+  Future<void> openCategoryBottomSheet(BuildContext context) async {
+    final selected = await BottomSheetHelper.showCustomBottomSheet<TransactionCategoryEnum>(
+      context: context,
+      child: TransactionCategoryBottomSheet(
+        categories: categories,
+        selectedCategory: selectedCategory.value,
+      ),
+    );
+
+    changeCategory(selected);
   }
 
   Future<void> pickDateTime(BuildContext context) async {
@@ -85,7 +120,6 @@ class CreateTransactionController extends GetxController {
 
     final amount = double.tryParse(amountController.text.trim());
     if (amount == null || amount <= 0) {
-      SnackBarHelper.showStandard('Enter an amount greater than 0.');
       return;
     }
 

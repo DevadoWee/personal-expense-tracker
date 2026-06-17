@@ -3,8 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../controllers/create_transaction_controller.dart';
-import '../helpers/bottom_sheet_helper.dart';
-import '../models/transactionModelByDay/transaction_category_enum.dart';
 import '../shared/extension.dart';
 import '../shared/palette.dart';
 import '../shared/spacing.dart';
@@ -20,90 +18,67 @@ class CreateTransactionScreen extends GetView<CreateTransactionController> {
     return CustomScaffold(
       title: 'New Expense',
       showBackButton: true,
+      padding: EdgeInsets.zero,
       child: Form(
         key: controller.formKey,
         child: ListView(
+          padding: Spacing.screenPadding,
           children: [
-            Text('Title', style: AppTypography.subSectionStyle.copyWith(color: Palettes.textPrimary, fontWeight: AppTypography.bold)),
-            const SizedBox(height: Spacing.base),
-            TextFormField(
-              controller: controller.titleController,
-              focusNode: controller.titleFocusNode,
-              keyboardType: TextInputType.text,
-              textInputAction: TextInputAction.next,
-              inputFormatters: [LengthLimitingTextInputFormatter(100)],
-              decoration: const InputDecoration(
-                hintText: 'Lunch with team',
-                border: OutlineInputBorder(),
-              ),
-              onFieldSubmitted: (_) => controller.focusAmount(),
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return 'Title is required';
-                }
-
-                return null;
-              },
+            const _SectionHeading(title: 'Details', subtitle: 'Describe the expense clearly so it is easy to scan later.'),
+            const SizedBox(height: Spacing.large),
+            _FormCard(
+              children: [
+                _FieldLabel(icon: Icons.edit_note_rounded, title: 'Title'),
+                const SizedBox(height: Spacing.base),
+                TextFormField(
+                  controller: controller.titleController,
+                  focusNode: controller.titleFocusNode,
+                  keyboardType: TextInputType.text,
+                  textInputAction: TextInputAction.next,
+                  inputFormatters: [LengthLimitingTextInputFormatter(100)],
+                  decoration: _inputDecoration('Lunch with team'),
+                  onFieldSubmitted: (_) => controller.amountFocusNode.requestFocus(),
+                  validator: controller.validateTitle,
+                ),
+                const SizedBox(height: Spacing.large),
+                _FieldLabel(icon: Icons.payments_rounded, title: 'Amount'),
+                const SizedBox(height: Spacing.base),
+                TextFormField(
+                  controller: controller.amountController,
+                  focusNode: controller.amountFocusNode,
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  textInputAction: TextInputAction.done,
+                  inputFormatters: controller.amountInputFormatters,
+                  decoration: _inputDecoration('0.00', prefixText: '\$ '),
+                  onFieldSubmitted: (_) => controller.saveTransaction(),
+                  validator: controller.validateAmount,
+                ),
+              ],
             ),
             const SizedBox(height: Spacing.large),
-            Text('Amount', style: AppTypography.subSectionStyle.copyWith(color: Palettes.textPrimary, fontWeight: AppTypography.bold)),
-            const SizedBox(height: Spacing.base),
-            TextFormField(
-              controller: controller.amountController,
-              focusNode: controller.amountFocusNode,
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              textInputAction: TextInputAction.done,
-              inputFormatters: controller.amountInputFormatters,
-              decoration: const InputDecoration(
-                hintText: '0.00',
-                border: OutlineInputBorder(),
-              ),
-              onFieldSubmitted: (_) => controller.saveTransaction(),
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return 'Amount is required';
-                }
-
-                if (double.tryParse(value.trim()) == null) {
-                  return 'Enter a valid amount';
-                }
-
-                return null;
-              },
+            _FormCard(
+              children: [
+                _FieldLabel(icon: Icons.tune_rounded, title: 'Selection'),
+                const SizedBox(height: Spacing.base),
+                Obx(() {
+                  return _PickerTile(
+                    icon: Icons.sell_rounded,
+                    title: 'Category',
+                    value: controller.selectedCategory.value.label,
+                    onTap: () => controller.openCategoryBottomSheet(context),
+                  );
+                }),
+                const SizedBox(height: Spacing.medium),
+                Obx(() {
+                  return _PickerTile(
+                    icon: Icons.schedule_rounded,
+                    title: 'Date & Time',
+                    value: controller.selectedDateTime.value.toFormattedDate12Time,
+                    onTap: () => controller.pickDateTime(context),
+                  );
+                }),
+              ],
             ),
-            const SizedBox(height: Spacing.large),
-            Text('Category', style: AppTypography.subSectionStyle.copyWith(color: Palettes.textPrimary, fontWeight: AppTypography.bold)),
-            const SizedBox(height: Spacing.base),
-            Obx(() {
-              return InkWell(
-                onTap: () => _openCategoryBottomSheet(context),
-                borderRadius: BorderRadius.circular(4),
-                child: InputDecorator(
-                  decoration: const InputDecoration(border: OutlineInputBorder()),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(controller.selectedCategory.value.label, style: AppTypography.subSectionStyle.copyWith(color: Palettes.textPrimary)),
-                      ),
-                      const Icon(Icons.keyboard_arrow_down_rounded, color: Palettes.textTertiary),
-                    ],
-                  ),
-                ),
-              );
-            }),
-            const SizedBox(height: Spacing.large),
-            Text('Date & Time', style: AppTypography.subSectionStyle.copyWith(color: Palettes.textPrimary, fontWeight: AppTypography.bold)),
-            const SizedBox(height: Spacing.base),
-            Obx(() {
-              return InkWell(
-                onTap: () => controller.pickDateTime(context),
-                borderRadius: BorderRadius.circular(4),
-                child: InputDecorator(
-                  decoration: const InputDecoration(border: OutlineInputBorder()),
-                  child: Text(controller.selectedDateTime.value.toFormattedDate12Time, style: AppTypography.subSectionStyle.copyWith(color: Palettes.textPrimary)),
-                ),
-              );
-            }),
             const SizedBox(height: Spacing.xLarge),
             Obx(() {
               return FilledButton(
@@ -111,8 +86,9 @@ class CreateTransactionScreen extends GetView<CreateTransactionController> {
                 style: FilledButton.styleFrom(
                   backgroundColor: Palettes.primary,
                   foregroundColor: Palettes.surface,
-                  padding: const EdgeInsets.symmetric(horizontal: Spacing.large, vertical: Spacing.medium),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+                  elevation: 0,
+                  padding: const EdgeInsets.symmetric(horizontal: Spacing.large, vertical: 18),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
                 ),
                 child: CustomButtonIndicator(isLoading: controller.isSaving.isTrue, label: 'Save Transaction'),
               );
@@ -123,65 +99,130 @@ class CreateTransactionScreen extends GetView<CreateTransactionController> {
     );
   }
 
-  Future<void> _openCategoryBottomSheet(BuildContext context) async {
-    final selected = await BottomSheetHelper.showCustomBottomSheet<TransactionCategoryEnum>(
-      context: context,
-      child: _CategoryBottomSheet(
-        categories: controller.categories,
-        selectedCategory: controller.selectedCategory.value,
-      ),
+  InputDecoration _inputDecoration(String hintText, {String? prefixText}) {
+    return InputDecoration(
+      hintText: hintText,
+      prefixText: prefixText,
+      hintStyle: AppTypography.subSectionStyle.copyWith(color: Palettes.textSecondary),
+      prefixStyle: AppTypography.subSectionStyle.copyWith(color: Palettes.textPrimary, fontWeight: AppTypography.bold),
+      filled: true,
+      fillColor: Palettes.surfaceMuted,
+      contentPadding: const EdgeInsets.symmetric(horizontal: Spacing.medium, vertical: Spacing.medium),
+      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(18), borderSide: const BorderSide(color: Palettes.border)),
+      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(18), borderSide: const BorderSide(color: Palettes.primary, width: 1.4)),
+      errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(18), borderSide: const BorderSide(color: Palettes.danger)),
+      focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(18), borderSide: const BorderSide(color: Palettes.danger, width: 1.2)),
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(18), borderSide: const BorderSide(color: Palettes.border)),
+      errorStyle: AppTypography.smallStyle.copyWith(color: Palettes.danger),
     );
-
-    controller.changeCategory(selected);
   }
 }
 
-class _CategoryBottomSheet extends StatelessWidget {
-  const _CategoryBottomSheet({
-    required this.categories,
-    required this.selectedCategory,
-  });
+class _SectionHeading extends StatelessWidget {
+  const _SectionHeading({required this.title, required this.subtitle});
 
-  final List<TransactionCategoryEnum> categories;
-  final TransactionCategoryEnum selectedCategory;
+  final String title;
+  final String subtitle;
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(Spacing.large, Spacing.medium, Spacing.large, Spacing.large),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: Container(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(title, style: AppTypography.headingStyle),
+        const SizedBox(height: Spacing.small),
+        Text(subtitle, style: AppTypography.subSectionStyle),
+      ],
+    );
+  }
+}
+
+class _FormCard extends StatelessWidget {
+  const _FormCard({required this.children});
+
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(Spacing.large),
+      decoration: BoxDecoration(
+        color: Palettes.surface,
+        borderRadius: BorderRadius.circular(28),
+        border: Border.all(color: Palettes.border),
+        boxShadow: const [
+          BoxShadow(color: Color(0x0A1C2230), blurRadius: 18, offset: Offset(0, 10)),
+        ],
+      ),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: children),
+    );
+  }
+}
+
+class _FieldLabel extends StatelessWidget {
+  const _FieldLabel({required this.icon, required this.title});
+
+  final IconData icon;
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(icon, color: Palettes.textTertiary, size: 18),
+        const SizedBox(width: Spacing.base),
+        Text(title, style: AppTypography.subSectionStyle.copyWith(color: Palettes.textPrimary, fontWeight: AppTypography.bold)),
+      ],
+    );
+  }
+}
+
+class _PickerTile extends StatelessWidget {
+  const _PickerTile({
+    required this.icon,
+    required this.title,
+    required this.value,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String title;
+  final String value;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Palettes.surfaceMuted,
+      borderRadius: BorderRadius.circular(20),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(20),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(Spacing.medium),
+          child: Row(
+            children: [
+              Container(
                 width: 44,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: Palettes.border,
-                  borderRadius: BorderRadius.circular(999),
+                height: 44,
+                decoration: const BoxDecoration(color: Palettes.primarySoft, shape: BoxShape.circle),
+                child: Icon(icon, color: Palettes.primary, size: 20),
+              ),
+              const SizedBox(width: Spacing.medium),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(title, style: AppTypography.smallStyle.copyWith(color: Palettes.textTertiary)),
+                    const SizedBox(height: Spacing.small),
+                    Text(value, style: AppTypography.subSectionStyle.copyWith(color: Palettes.textPrimary, fontWeight: AppTypography.bold)),
+                  ],
                 ),
               ),
-            ),
-            const SizedBox(height: Spacing.large),
-            Text('Select category', style: AppTypography.subSectionStyle.copyWith(color: Palettes.textPrimary, fontWeight: AppTypography.bold)),
-            const SizedBox(height: Spacing.medium),
-            for (final category in categories)
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Text(
-                  category.label,
-                  style: AppTypography.subSectionStyle.copyWith(
-                    color: category == selectedCategory ? Palettes.primary : Palettes.textPrimary,
-                    fontWeight: category == selectedCategory ? AppTypography.bold : AppTypography.medium,
-                  ),
-                ),
-                trailing: category == selectedCategory ? const Icon(Icons.check_rounded, color: Palettes.primary) : null,
-                onTap: () => Navigator.of(context).pop(category),
-              ),
-          ],
+              const SizedBox(width: Spacing.medium),
+              const Icon(Icons.arrow_forward_ios_rounded, color: Palettes.textSecondary, size: 14),
+            ],
+          ),
         ),
       ),
     );
