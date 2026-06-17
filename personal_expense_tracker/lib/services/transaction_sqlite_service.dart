@@ -1,20 +1,20 @@
 import 'package:sqflite/sqflite.dart';
 
 import '../models/transactionModelByDay/transaction_model.dart';
-import '../repository/transaction_repository.dart';
+import '../repository/transaction_sqlite_repository.dart';
 
-final class TransactionService {
-  const TransactionService._();
+final class TransactionSqLiteService {
+  const TransactionSqLiteService._();
 
   static Future<void> createTable(Database db) async {
-    await TransactionRepository.createTable(db);
+    await TransactionSqLiteRepository.createTable(db);
   }
 
   static Future<void> insert(TransactionModel transaction) async {
-    await TransactionRepository.insert(transaction);
+    await TransactionSqLiteRepository.insert(transaction);
   }
 
   static Future<List<TransactionModel>> getAll() async {
-    return TransactionRepository.getAll();
+    return TransactionSqLiteRepository.getAll();
   }
 }

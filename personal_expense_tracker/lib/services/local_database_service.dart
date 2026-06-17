@@ -1,7 +1,7 @@
 import 'package:path/path.dart' as path;
 import 'package:sqflite/sqflite.dart';
 
-import 'transaction_service.dart';
+import 'transaction_sqlite_service.dart';
 
 final class LocalDatabaseService {
   LocalDatabaseService._();
@@ -37,7 +37,7 @@ final class LocalDatabaseService {
         await db.execute('PRAGMA foreign_keys = ON');
       },
       onCreate: (db, version) async {
-        await TransactionService.createTable(db);
+        await TransactionSqLiteService.createTable(db);
       },
       onUpgrade: (db, oldVersion, newVersion) async {},
     );

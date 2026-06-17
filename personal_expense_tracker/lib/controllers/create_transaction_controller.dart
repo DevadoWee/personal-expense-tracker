@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 import '../models/transactionModelByDay/transaction_category_enum.dart';
 import '../models/transactionModelByDay/transaction_model.dart';
-import '../services/transaction_service.dart';
+import '../services/transaction_sqlite_service.dart';
 import 'home_controller.dart';
 
 class CreateTransactionController extends GetxController {
@@ -99,7 +99,7 @@ class CreateTransactionController extends GetxController {
         category: selectedCategory.value,
       );
 
-      await TransactionService.insert(transaction);
+      await TransactionSqLiteService.insert(transaction);
       Get.back();
     } finally {
       isSaving.value = false;

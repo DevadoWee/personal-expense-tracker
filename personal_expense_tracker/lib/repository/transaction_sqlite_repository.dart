@@ -3,8 +3,8 @@ import 'package:sqflite/sqflite.dart';
 import '../models/transactionModelByDay/transaction_model.dart';
 import '../services/local_database_service.dart';
 
-final class TransactionRepository {
-  const TransactionRepository._();
+final class TransactionSqLiteRepository {
+  const TransactionSqLiteRepository._();
 
   static const String tableName = 'transactions';
 
