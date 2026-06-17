@@ -9,6 +9,7 @@ import '../shared/extension.dart';
 import '../shared/palette.dart';
 import '../shared/spacing.dart';
 import '../shared/typography.dart';
+import '../widgets/custom_button_indicator.dart';
 import '../widgets/custom_scaffold.dart';
 
 class CreateTransactionScreen extends GetView<CreateTransactionController> {
@@ -113,7 +114,7 @@ class CreateTransactionScreen extends GetView<CreateTransactionController> {
                   padding: const EdgeInsets.symmetric(horizontal: Spacing.large, vertical: Spacing.medium),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
                 ),
-                child: Text(controller.isSaving.isTrue ? 'Saving...' : 'Save Transaction', style: AppTypography.subSectionStyle.copyWith(color: Palettes.surface, fontWeight: AppTypography.bold)),
+                child: CustomButtonIndicator(isLoading: controller.isSaving.isTrue, label: 'Save Transaction'),
               );
             }),
           ],

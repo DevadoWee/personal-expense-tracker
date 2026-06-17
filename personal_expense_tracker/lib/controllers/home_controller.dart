@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 
+import '../helpers/snackbar_helper.dart';
 import '../models/transactionModelByDay/transaction_model_by_day.dart';
 import '../shared/route.dart';
 import '../services/transaction_sqlite_service.dart';
@@ -34,6 +35,10 @@ class HomeController extends GetxController {
   }
 
   Future<void> refreshData() async {
-    await loadTransactions();
+    try {
+      await loadTransactions();
+    } catch (error) {
+      SnackBarHelper.showError(error.toString());
+    }
   }
 }

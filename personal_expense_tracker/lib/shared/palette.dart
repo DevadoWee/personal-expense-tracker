@@ -18,6 +18,9 @@ final class Palettes {
   static const Color textTertiary = Color(0xFF6E6E73);
 
   static const Color danger = Color(0xFFF25549);
+  static const Color success = Color(0xFF2AA66A);
+  static const Color warning = Color(0xFFF5A524);
+  static const Color snackbarNeutral = Color(0xFF5E6470);
 
   static const Color foodBackground = Color(0xFFFFF2DB);
   static const Color foodForeground = Color(0xFFFF8D22);

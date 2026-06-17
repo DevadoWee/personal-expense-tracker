@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+import '../helpers/snackbar_helper.dart';
 import '../models/transactionModelByDay/transaction_category_enum.dart';
 import '../models/transactionModelByDay/transaction_model.dart';
 import '../services/transaction_sqlite_service.dart';
@@ -84,7 +85,7 @@ class CreateTransactionController extends GetxController {
 
     final amount = double.tryParse(amountController.text.trim());
     if (amount == null || amount <= 0) {
-      Get.snackbar('Invalid amount', 'Enter an amount greater than 0.');
+      SnackBarHelper.showStandard('Enter an amount greater than 0.');
       return;
     }
 
@@ -101,7 +102,10 @@ class CreateTransactionController extends GetxController {
 
       await TransactionSqLiteService.insert(transaction);
       await HomeController.to.refreshData();
+      SnackBarHelper.showSuccess('Expense added');
       Get.back();
+    } catch (error) {
+      SnackBarHelper.showError(error.toString());
     } finally {
       isSaving.value = false;
     }

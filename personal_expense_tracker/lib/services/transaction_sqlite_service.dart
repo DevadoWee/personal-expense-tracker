@@ -20,6 +20,7 @@ final class TransactionSqLiteService {
     final items = <TransactionModelByDay>[];
     String? currentDateOnly;
 
+    // Focus on date, create new groups transactions by date for each diff in date.
     for (final row in rows) {
       final transaction = TransactionModel.fromJson(row);
       final dateOnly = row[TransactionSqLiteRepository.dateOnlyColumn] as String;
@@ -30,6 +31,8 @@ final class TransactionSqLiteService {
         continue;
       }
 
+      // Remove previous group to only add transaction and patch back
+      // due to variable being 'final'
       final current = items.removeLast();
       items.add(current.copyWith(transactions: [...current.transactions, transaction]));
     }
