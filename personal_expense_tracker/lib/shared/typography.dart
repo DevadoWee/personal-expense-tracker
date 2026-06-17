@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'constant.dart';
+import 'palette.dart';
 
 final class AppTypography {
   const AppTypography._();
@@ -23,7 +24,7 @@ final class AppTypography {
     fontFamily: fontFamily,
     fontSize: title,
     fontWeight: bold,
-    color: Color(0xFF262626),
+    color: Palettes.textPrimary,
     height: 1.1,
     letterSpacing: -0.3,
   );
@@ -31,7 +32,7 @@ final class AppTypography {
     fontFamily: fontFamily,
     fontSize: heading,
     fontWeight: bold,
-    color: Color(0xFF262626),
+    color: Palettes.textPrimary,
     height: 1.15,
     letterSpacing: -0.2,
   );
@@ -39,21 +40,21 @@ final class AppTypography {
     fontFamily: fontFamily,
     fontSize: subheading,
     fontWeight: bold,
-    color: Color(0xFF262626),
+    color: Palettes.textPrimary,
     height: 1.2,
   );
   static const TextStyle subSectionStyle = TextStyle(
     fontFamily: fontFamily,
     fontSize: base,
     fontWeight: medium,
-    color: Color(0xFF8A8A8F),
+    color: Palettes.textSecondary,
     height: 1.3,
   );
   static const TextStyle smallStyle = TextStyle(
     fontFamily: fontFamily,
     fontSize: small,
     fontWeight: medium,
-    color: Color(0xFF8A8A8F),
+    color: Palettes.textSecondary,
     height: 1.3,
   );
 }

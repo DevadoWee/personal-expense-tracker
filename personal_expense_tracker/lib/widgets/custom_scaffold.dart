@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../shared/palette.dart';
 import '../shared/spacing.dart';
 import '../shared/typography.dart';
 
@@ -91,8 +92,8 @@ class CircleActionButton extends StatelessWidget {
     super.key,
     required this.icon,
     required this.onTap,
-    this.backgroundColor = Colors.white,
-    this.iconColor = const Color(0xFF4A4A4A),
+    this.backgroundColor = Palettes.surface,
+    this.iconColor = Palettes.textPrimary,
   });
 
   final IconData icon;
@@ -115,8 +116,8 @@ class _CircleActionButton extends StatelessWidget {
   const _CircleActionButton({
     required this.icon,
     required this.onTap,
-    this.backgroundColor = Colors.white,
-    this.iconColor = const Color(0xFF4A4A4A),
+    this.backgroundColor = Palettes.surface,
+    this.iconColor = Palettes.textPrimary,
   });
 
   final IconData icon;

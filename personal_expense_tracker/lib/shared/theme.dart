@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 
 import 'constant.dart';
+import 'palette.dart';
 import 'typography.dart';
 
 class AppTheme {
   static ThemeData get data {
-    const surface = Color(0xFFF7F7FB);
-    const primary = Color(0xFF4A63E7);
-
     return ThemeData(
       useMaterial3: true,
-      scaffoldBackgroundColor: surface,
+      scaffoldBackgroundColor: Palettes.background,
       colorScheme: ColorScheme.fromSeed(
-        seedColor: primary,
-        primary: primary,
-        surface: surface,
+        seedColor: Palettes.primary,
+        primary: Palettes.primary,
+        surface: Palettes.background,
       ),
       fontFamily: AppTypography.fontFamily,
       textTheme: const TextTheme(
@@ -22,7 +20,7 @@ class AppTheme {
           fontFamily: AppTypography.fontFamily,
           fontSize: AppTypography.title,
           fontWeight: AppTypography.bold,
-          color: Color(0xFF262626),
+          color: Palettes.textPrimary,
           height: 1.1,
           letterSpacing: -0.3,
         ),
@@ -30,7 +28,7 @@ class AppTheme {
           fontFamily: AppTypography.fontFamily,
           fontSize: AppTypography.title,
           fontWeight: AppTypography.black,
-          color: Color(0xFF262626),
+          color: Palettes.textPrimary,
           height: 1.1,
           letterSpacing: -0.3,
         ),
@@ -38,7 +36,7 @@ class AppTheme {
           fontFamily: AppTypography.fontFamily,
           fontSize: AppTypography.heading,
           fontWeight: AppTypography.bold,
-          color: Color(0xFF262626),
+          color: Palettes.textPrimary,
           height: 1.15,
           letterSpacing: -0.2,
         ),
@@ -46,20 +44,20 @@ class AppTheme {
           fontFamily: AppTypography.fontFamily,
           fontSize: AppTypography.subheading,
           fontWeight: AppTypography.medium,
-          color: Color(0xFF262626),
+          color: Palettes.textPrimary,
           height: 1.2,
         ),
         bodyMedium: TextStyle(
           fontFamily: AppTypography.fontFamily,
           fontSize: AppTypography.base,
           fontWeight: AppTypography.medium,
-          color: Color(0xFF8A8A8F),
+          color: Palettes.textSecondary,
           height: 1.3,
         ),
       ),
       cardTheme: const CardThemeData(
         elevation: 0,
-        color: Colors.white,
+        color: Palettes.surface,
         margin: EdgeInsets.zero,
         shape: RoundedRectangleBorder(borderRadius: Constants.borderRadius),
       ),
