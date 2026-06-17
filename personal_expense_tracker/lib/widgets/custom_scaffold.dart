@@ -8,44 +8,61 @@ class CustomScaffold extends StatelessWidget {
   const CustomScaffold({
     super.key,
     required this.child,
+    this.header,
     this.title,
     this.showBackButton = false,
+    this.showHeaderDivider = false,
     this.trailing,
     this.padding = Spacing.screenPadding,
+    this.headerPadding = EdgeInsets.zero,
   });
 
   final Widget child;
+  final Widget? header;
   final String? title;
   final bool showBackButton;
+  final bool showHeaderDivider;
   final Widget? trailing;
   final EdgeInsets padding;
+  final EdgeInsets headerPadding;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: padding,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (_showTopBar) ...[
-                _CustomTopBar(
-                  title: title,
-                  showBackButton: showBackButton,
-                  trailing: trailing,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (header != null) Padding(padding: headerPadding, child: header!),
+            if (showHeaderDivider) const Divider(height: 1, color: Palettes.divider),
+            if (_showTopBar)
+              Padding(
+                padding: padding,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _CustomTopBar(
+                      title: title,
+                      showBackButton: showBackButton,
+                      trailing: trailing,
+                    ),
+                    const SizedBox(height: Spacing.large),
+                  ],
                 ),
-                const SizedBox(height: Spacing.large),
-              ],
-              Expanded(child: child),
-            ],
-          ),
+              ),
+            Expanded(
+              child: Padding(
+                padding: padding,
+                child: child,
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  bool get _showTopBar => showBackButton || title != null || trailing != null;
+  bool get _showTopBar => header == null && (showBackButton || title != null || trailing != null);
 }
 
 class _CustomTopBar extends StatelessWidget {

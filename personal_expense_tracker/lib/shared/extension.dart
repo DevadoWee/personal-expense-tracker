@@ -6,3 +6,8 @@ extension DoubleExtension on double {
     return formatter.format(this);
   }
 }
+
+extension DateTimeExtension on DateTime {
+  String get toFormattedDate12 => DateFormat('dd MMM yyyy').format(this);
+  String get toFormattedDate12Time => DateFormat('dd MMM yyyy, hh:mm a').format(this);
+}

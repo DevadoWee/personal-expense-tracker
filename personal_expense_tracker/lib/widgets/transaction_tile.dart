@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../models/transaction_model.dart';
+import '../models/transactionModelByDay/transaction_category_enum.dart';
+import '../models/transactionModelByDay/transaction_model.dart';
 import '../shared/constant.dart';
 import '../shared/extension.dart';
 import '../shared/palette.dart';
@@ -72,47 +73,47 @@ class TransactionTile extends StatelessWidget {
     );
   }
 
-  IconData _iconForCategory(TransactionCategory category) {
+  IconData _iconForCategory(TransactionCategoryEnum category) {
     switch (category) {
-      case TransactionCategory.food:
+      case TransactionCategoryEnum.food:
         return Icons.restaurant_rounded;
-      case TransactionCategory.transport:
+      case TransactionCategoryEnum.transport:
         return Icons.directions_bus_rounded;
-      case TransactionCategory.entertainment:
+      case TransactionCategoryEnum.entertainment:
         return Icons.local_activity_rounded;
-      case TransactionCategory.utilities:
+      case TransactionCategoryEnum.utilities:
         return Icons.bolt_rounded;
-      case TransactionCategory.other:
+      case TransactionCategoryEnum.other:
         return Icons.receipt_long_rounded;
     }
   }
 
-  Color _iconBackgroundColor(TransactionCategory category) {
+  Color _iconBackgroundColor(TransactionCategoryEnum category) {
     switch (category) {
-      case TransactionCategory.food:
+      case TransactionCategoryEnum.food:
         return Palettes.foodBackground;
-      case TransactionCategory.transport:
+      case TransactionCategoryEnum.transport:
         return Palettes.transportBackground;
-      case TransactionCategory.entertainment:
+      case TransactionCategoryEnum.entertainment:
         return Palettes.entertainmentBackground;
-      case TransactionCategory.utilities:
+      case TransactionCategoryEnum.utilities:
         return Palettes.utilitiesBackground;
-      case TransactionCategory.other:
+      case TransactionCategoryEnum.other:
         return Palettes.otherBackground;
     }
   }
 
-  Color _iconColor(TransactionCategory category) {
+  Color _iconColor(TransactionCategoryEnum category) {
     switch (category) {
-      case TransactionCategory.food:
+      case TransactionCategoryEnum.food:
         return Palettes.foodForeground;
-      case TransactionCategory.transport:
+      case TransactionCategoryEnum.transport:
         return Palettes.transportForeground;
-      case TransactionCategory.entertainment:
+      case TransactionCategoryEnum.entertainment:
         return Palettes.entertainmentForeground;
-      case TransactionCategory.utilities:
+      case TransactionCategoryEnum.utilities:
         return Palettes.utilitiesForeground;
-      case TransactionCategory.other:
+      case TransactionCategoryEnum.other:
         return Palettes.otherForeground;
     }
   }
