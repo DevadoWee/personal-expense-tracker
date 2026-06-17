@@ -17,6 +17,7 @@ class HomeScreen extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
+      floatingActionButton: _NewExpenseButton(onTap: controller.tapNewExpense),
       padding: EdgeInsets.zero,
       header: const _HomeHeader(),
       headerPadding: const EdgeInsets.fromLTRB(Spacing.large, Spacing.medium, Spacing.large, Spacing.medium),
@@ -46,6 +47,33 @@ class HomeScreen extends GetView<HomeController> {
           ],
         );
       }),
+    );
+  }
+}
+
+class _NewExpenseButton extends StatelessWidget {
+  const _NewExpenseButton({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return FilledButton(
+      onPressed: onTap,
+      style: FilledButton.styleFrom(
+        backgroundColor: Palettes.primary,
+        foregroundColor: Palettes.surface,
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.add_rounded, size: 18),
+          const SizedBox(width: Spacing.base),
+          Text('ADD', style: AppTypography.subSectionStyle.copyWith(color: Palettes.surface, fontWeight: AppTypography.bold)),
+        ],
+      ),
     );
   }
 }

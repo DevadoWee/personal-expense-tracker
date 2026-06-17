@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../models/transactionModelByDay/transaction_category_enum.dart';
 import '../models/transactionModelByDay/transaction_model.dart';
 import '../models/transactionModelByDay/transaction_model_by_day.dart';
+import '../shared/route.dart';
 
 class HomeController extends GetxController {
   static HomeController get to => Get.find<HomeController>();
@@ -14,6 +15,10 @@ class HomeController extends GetxController {
   void tapProfile() {}
 
   void tapFilter() {}
+
+  void tapNewExpense() {
+    Get.toNamed(Routes.createTransaction);
+  }
 
   @override
   void onInit() {

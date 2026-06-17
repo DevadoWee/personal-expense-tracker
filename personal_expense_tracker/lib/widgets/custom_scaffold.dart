@@ -13,6 +13,7 @@ class CustomScaffold extends StatelessWidget {
     this.showBackButton = false,
     this.showHeaderDivider = false,
     this.trailing,
+    this.floatingActionButton,
     this.padding = Spacing.screenPadding,
     this.headerPadding = EdgeInsets.zero,
   });
@@ -23,12 +24,14 @@ class CustomScaffold extends StatelessWidget {
   final bool showBackButton;
   final bool showHeaderDivider;
   final Widget? trailing;
+  final Widget? floatingActionButton;
   final EdgeInsets padding;
   final EdgeInsets headerPadding;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: floatingActionButton,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
