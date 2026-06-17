@@ -6,6 +6,9 @@ import 'palette.dart';
 final class AppTypography {
   const AppTypography._();
 
+  // In UI code, `copyWith` is allowed for color and fontWeight changes.
+  // Do not use `copyWith` to change fontSize; add a new typography token instead.
+
   static const String fontFamily = Constants.fontFamily;
 
   static const FontWeight light = FontWeight.w300;

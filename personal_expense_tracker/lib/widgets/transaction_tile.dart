@@ -15,9 +15,6 @@ class TransactionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final metaStyle = Theme.of(context).textTheme.bodyMedium;
-    final titleStyle = Theme.of(context).textTheme.bodyLarge;
-
     return Container(
       width: double.infinity,
       padding: Spacing.mediumPadding,
@@ -46,16 +43,11 @@ class TransactionTile extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  transaction.title,
-                  style: titleStyle?.copyWith(fontWeight: AppTypography.bold),
-                ),
+                Text(transaction.title, style: AppTypography.subSectionStyle.copyWith(color: Palettes.textPrimary, fontWeight: AppTypography.bold)),
                 const SizedBox(height: Spacing.small),
                 Text(
                   '${transaction.category.label} · ${_timeLabel(transaction.date)}',
-                  style: metaStyle?.copyWith(
-                    fontSize: AppTypography.subheading,
-                  ),
+                  style: AppTypography.smallStyle,
                 ),
               ],
             ),
@@ -63,10 +55,7 @@ class TransactionTile extends StatelessWidget {
           const SizedBox(width: Spacing.medium),
           Text(
             '-${transaction.amount.toCurrencyFormat()}',
-            style: titleStyle?.copyWith(
-              fontWeight: AppTypography.bold,
-              color: Palettes.danger,
-            ),
+            style: AppTypography.subSectionStyle.copyWith(color: Palettes.danger, fontWeight: AppTypography.bold),
           ),
         ],
       ),

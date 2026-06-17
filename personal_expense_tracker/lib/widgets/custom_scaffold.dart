@@ -90,7 +90,7 @@ class _CustomTopBar extends StatelessWidget {
         if (title != null) ...[
           const SizedBox(width: 16),
           Expanded(
-            child: Text(title!, style: Theme.of(context).textTheme.titleMedium),
+            child: Text(title!, style: AppTypography.subSectionStyle.copyWith(color: Palettes.textPrimary, fontWeight: AppTypography.bold)),
           ),
         ] else
           const Spacer(),

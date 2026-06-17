@@ -75,14 +75,9 @@ class _HomeHeader extends GetView<HomeController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Personal Expense', style: AppTypography.subHeadingStyle),
+              Text('Personal Expense', style: AppTypography.subSectionStyle.copyWith(color: Palettes.textPrimary, fontWeight: AppTypography.bold)),
               const SizedBox(height: Spacing.small),
-              Text(
-                'Tracker',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontSize: AppTypography.subheading,
-                ),
-              ),
+              Text('Tracker', style: AppTypography.subSectionStyle),
             ],
           ),
         ),
@@ -154,12 +149,8 @@ class _TransactionSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final headingStyle = AppTypography.headingStyle;
-    final totalStyle = Theme.of(context).textTheme.titleMedium?.copyWith(
-      fontSize: AppTypography.heading,
-      fontWeight: AppTypography.bold,
-      color: Palettes.danger,
-    );
+    final headingStyle = AppTypography.subSectionStyle.copyWith(color: Palettes.textPrimary, fontWeight: AppTypography.bold);
+    final totalStyle = AppTypography.subSectionStyle.copyWith(color: Palettes.danger, fontWeight: AppTypography.bold);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
