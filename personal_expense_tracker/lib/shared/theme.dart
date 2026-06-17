@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'constant.dart';
+import 'typography.dart';
+
 class AppTheme {
   static ThemeData get data {
     const surface = Color(0xFFF7F7FB);
@@ -13,41 +16,52 @@ class AppTheme {
         primary: primary,
         surface: surface,
       ),
-      fontFamily: 'SF Pro Display',
+      fontFamily: AppTypography.fontFamily,
       textTheme: const TextTheme(
         headlineSmall: TextStyle(
-          fontSize: 28,
-          fontWeight: FontWeight.w700,
+          fontFamily: AppTypography.fontFamily,
+          fontSize: AppTypography.title,
+          fontWeight: AppTypography.bold,
           color: Color(0xFF262626),
+          height: 1.1,
+          letterSpacing: -0.3,
         ),
         titleLarge: TextStyle(
-          fontSize: 30,
-          fontWeight: FontWeight.w700,
+          fontFamily: AppTypography.fontFamily,
+          fontSize: AppTypography.title,
+          fontWeight: AppTypography.black,
           color: Color(0xFF262626),
+          height: 1.1,
+          letterSpacing: -0.3,
         ),
         titleMedium: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.w700,
+          fontFamily: AppTypography.fontFamily,
+          fontSize: AppTypography.heading,
+          fontWeight: AppTypography.bold,
           color: Color(0xFF262626),
+          height: 1.15,
+          letterSpacing: -0.2,
         ),
         bodyLarge: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
+          fontFamily: AppTypography.fontFamily,
+          fontSize: AppTypography.subheading,
+          fontWeight: AppTypography.medium,
           color: Color(0xFF262626),
+          height: 1.2,
         ),
         bodyMedium: TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
+          fontFamily: AppTypography.fontFamily,
+          fontSize: AppTypography.base,
+          fontWeight: AppTypography.medium,
           color: Color(0xFF8A8A8F),
+          height: 1.3,
         ),
       ),
       cardTheme: const CardThemeData(
         elevation: 0,
         color: Colors.white,
         margin: EdgeInsets.zero,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(22)),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: Constants.borderRadius),
       ),
     );
   }
