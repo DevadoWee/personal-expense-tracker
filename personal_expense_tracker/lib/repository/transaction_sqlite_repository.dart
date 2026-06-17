@@ -7,6 +7,7 @@ final class TransactionSqLiteRepository {
   const TransactionSqLiteRepository._();
 
   static const String tableName = 'transactions';
+  static const String dateOnlyColumn = 'date_only';
 
   static Future<void> createTable(Database db) async {
     await db.execute('''
@@ -25,9 +26,9 @@ final class TransactionSqLiteRepository {
     await db.insert(tableName, transaction.toJson(), conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
-  static Future<List<TransactionModel>> getAll() async {
+  static Future<List<Map<String, Object?>>> getTransactionsOrderedByDateDescWithDateOnly() async {
+    // Fetch all but arranged based on dateTime, but with an extra column for only the date
     final db = await LocalDatabaseService.instance.database;
-    final result = await db.query(tableName, orderBy: 'date DESC');
-    return result.map((json) => TransactionModel.fromJson(json)).toList();
+    return db.rawQuery('SELECT *, substr(date, 1, 10) AS $dateOnlyColumn FROM $tableName ORDER BY date DESC');
   }
 }

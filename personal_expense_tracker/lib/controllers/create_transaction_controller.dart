@@ -100,6 +100,7 @@ class CreateTransactionController extends GetxController {
       );
 
       await TransactionSqLiteService.insert(transaction);
+      await HomeController.to.refreshData();
       Get.back();
     } finally {
       isSaving.value = false;
