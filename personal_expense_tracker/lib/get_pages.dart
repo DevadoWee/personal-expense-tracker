@@ -10,6 +10,6 @@ final class GetPages {
 
   static final pages = <GetPage>[
     GetPage(name: Routes.home, page: () => const HomeScreen(), binding: RouteBindings.home),
-    GetPage(name: Routes.createTransaction, page: () => const CreateTransactionScreen()),
+    GetPage(name: Routes.createTransaction, page: () => const CreateTransactionScreen(), binding: RouteBindings.createTransaction),
   ];
 }
