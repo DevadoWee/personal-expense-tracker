@@ -24,7 +24,7 @@ class CreateTransactionScreen extends GetView<CreateTransactionController> {
         child: ListView(
           padding: Spacing.screenPadding,
           children: [
-            const _SectionHeading(title: 'Details', subtitle: 'Describe the expense clearly so it is easy to scan later.'),
+            const _SectionHeading(title: 'Details', subtitle: 'Add the basic expense information.'),
             const SizedBox(height: Spacing.large),
             _FormCard(
               children: [
